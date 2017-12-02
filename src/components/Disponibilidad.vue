@@ -50,18 +50,23 @@ export default {
   },
   methods: {
     datosEnviar () {
-      return this.data.reduce((c, x) => Object.assign(c, pluck(x.platos)), {})
+      return new Promise(resolve => {
+        const datos = this.data.reduce((c, x) =>
+          Object.assign(c, pluck(x.platos)), {})
+        resolve(datos)
+      })
     }
   },
   mounted () {
     this.$store.dispatch('refreshCategorias')
     this.data = this.filteredCategorias
     if (!this.data.length) {
-      window.setTimeout(() => { this.data = this.categorias.filter(x => x.platos.length) }, 3000)
+      window.setTimeout(() => { this.data = this.categorias.filter(x => x.platos.length) }, 1000)
     }
     window.EventBus.$on('guardarDisponibilidad', () => {
-      console.log('dino nikita')
-      this.$store.dispatch('actualizarDisponibilidad', this.datosEnviar())
+      this.datosEnviar().then(datos => {
+        this.$store.dispatch('actualizarDisponibilidad', datos)
+      })
     })
   }
 }

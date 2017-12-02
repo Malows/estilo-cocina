@@ -27,9 +27,30 @@
           q-item-main(label='Salir' sublabel='Cerrar la sesión')
     modal-despachar(v-if='showModal')
     router-view
-    q-btn.raised.fixed-bottom-right(v-if="route.name.includes('Pedido')" icon='event_note' round='' color='primary' @click="$router.push({ path: '/categorias' })" style='bottom: 24px; right: 18px;')
-    q-btn.raised.fixed-bottom-right(v-if="route.name.includes('Resúmen')" icon='receipt' round='' color='primary' @click="$router.push({ path: '/pedidos' })" style='bottom: 24px; right: 18px;')
-    q-btn.raised.fixed-bottom-right(v-if="route.name.includes('Disponibilidad')" icon='check' round='' color='primary' @click='guardarDisponibilidad' style='bottom: 24px; right: 18px;')
+    q-btn.raised.fixed-bottom-right(
+      v-if="route.name.includes('Pedido')"
+      icon='event_note'
+      round=''
+      color='primary'
+      @click="$router.push({ path: '/categorias' })"
+      style='bottom: 24px; right: 18px;'
+      )
+    q-btn.raised.fixed-bottom-right(
+      v-if="route.name.includes('Resúmen')"
+      icon='receipt'
+      round=''
+      color='primary'
+      @click="$router.push({ path: '/pedidos' })"
+      style='bottom: 24px; right: 18px;'
+      )
+    q-btn.raised.fixed-bottom-right(
+      v-if="route.name.includes('Disponibilidad')"
+      icon='check'
+      round=''
+      color='primary'
+      @click='guardarDisponibilidad'
+      style='bottom: 24px; right: 18px;'
+      )
 </template>
 
 <script>
