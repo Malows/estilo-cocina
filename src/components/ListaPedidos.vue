@@ -1,19 +1,13 @@
-<template>
-  <q-pull-to-refresh
-    :handler="refresher"
-    pull-message="Arrastre para actualizar los datos"
-    release-message="Suelte para actualizar los datos"
-    refresh-message="Actualizando...">
-    <!-- if you want automatic padding use "layout-padding" class -->
-    <div class="layout-padding">
-      <!-- your content -->
-
-      <div v-if="pedidos.length" class="is-12-mobile is-10-tablet col-md-offset-1 is-8-desktop col-lg-offset-2 text-left small-padding" >
-        <pedido v-for="pedido in pedidos" :key="pedido.id" :data="pedido" />
-      </div>
-    </div>
-
-  </q-pull-to-refresh>
+<template lang="pug">
+  q-pull-to-refresh(
+    :handler='refresher'
+    pull-message='Arrastre para actualizar los datos'
+    release-message='Suelte para actualizar los datos'
+    refresh-message='Actualizando...'
+    )
+    .layout-padding
+      .is-12-mobile.is-10-tablet.col-md-offset-1.is-8-desktop.col-lg-offset-2.text-left.small-padding(v-if='pedidos.length')
+        pedido(v-for='pedido in pedidos' :key='pedido.id' :data='pedido')
 </template>
 
 <script>
@@ -24,12 +18,7 @@ import { QBtn, QPullToRefresh, Toast } from 'quasar'
 
 export default {
   name: 'lista-pedidos',
-  components: {
-    Pedido,
-    ModalDespachar,
-    QBtn,
-    QPullToRefresh
-  },
+  components: { Pedido, ModalDespachar, QBtn, QPullToRefresh },
   computed: {
     ...mapState(['pedidos', 'pedido_seleccionado'])
   },

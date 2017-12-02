@@ -1,16 +1,13 @@
-<template lang="html">
-  <q-pull-to-refresh
-    :handler="refresher"
-    pull-message="Arrastre para actualizar los datos"
-    release-message="Suelte para actualizar los datos"
-    refresh-message="Actualizando...">
-    <!-- if you want automatic padding use "layout-padding" class -->
-    <div class="layout-padding">
-      <div v-if="resumenes.length" class="is-12-mobile is-10-tablet col-md-offset-1 is-8-desktop col-lg-offset-2 text-left small-padding">
-        <categoria v-for="categoria in resumenes" :key="categoria.id" :data="categoria" />
-      </div>
-    </div>
-  </q-pull-to-refresh>
+<template lang="pug">
+  q-pull-to-refresh(
+    :handler='refresher'
+    pull-message='Arrastre para actualizar los datos'
+    release-message='Suelte para actualizar los datos'
+    refresh-message='Actualizando...'
+    )
+    .layout-padding
+      .is-12-mobile.is-10-tablet.col-md-offset-1.is-8-desktop.col-lg-offset-2.text-left.small-padding(v-if='resumenes.length')
+        categoria(v-for='categoria in resumenes' :key='categoria.id' :data='categoria')
 </template>
 
 <script>
@@ -20,10 +17,7 @@ import { QPullToRefresh, Toast } from 'quasar'
 
 export default {
   name: 'lista-resumenes',
-  components: {
-    Categoria,
-    QPullToRefresh
-  },
+  components: { Categoria, QPullToRefresh },
   methods: {
     refresher (done) {
       this.$store.dispatch('refreshResumenes')

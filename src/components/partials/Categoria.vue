@@ -1,12 +1,10 @@
-<template lang="html">
-  <div class="box" v-if="data.platos.length" @click="clickEnCategoria">
-    <h2 class="title">{{ data.nombre.toUpperCase() }}</h2>
-    <h4 class="subtitle">{{ parsedTotal }}</h4>
-    <hr>
-    <div class="row">
-      <plato v-for="plato in data.platos" :key="plato.id" :plato="plato" />
-    </div>
-  </div>
+<template lang="pug">
+  .box(v-if='data.platos.length' @click='clickEnCategoria')
+    h2.title.uppercase {{ data.nombre }}
+    h4.subtitle {{ parsedTotal }}
+    hr
+    .row
+      plato(v-for='plato in data.platos' :key='plato.id' :plato='plato')
 </template>
 
 <script>

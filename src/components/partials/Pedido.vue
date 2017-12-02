@@ -1,11 +1,11 @@
-<template lang="html">
-  <div class="box" @click="clickEnPedido">
-    <p>Mozo: <strong>{{ data.mozo.name }}</strong> - {{ totalCosas }}</p>
-    <div class="row">
-      <plato v-for="plato in data.platos" :key="plato.id" :plato="plato"></plato>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+  .box(@click='clickEnPedido')
+    p
+      | Mozo:
+      strong {{ data.mozo.name }}
+      |  - {{ totalCosas }}
+    .row
+      plato(v-for='plato in data.platos' :key='plato.id' :plato='plato')
 </template>
 
 <script>
@@ -13,9 +13,7 @@ import Plato from './Plato'
 
 export default {
   name: 'pedido',
-  components: {
-    Plato
-  },
+  components: { Plato },
   props: ['data'],
   methods: {
     clickEnPedido () {
@@ -24,8 +22,8 @@ export default {
   },
   computed: {
     totalCosas () {
-      if (this.data === undefined) return ''
-      else return `${this.data.total_cosas || ''} ${this.data.total_cosas > 1 ? 'cosas' : 'cosa'}`
+      const total = this.data.total_cosas
+      return total ? `${total || ''} ${total > 1 ? 'cosas' : 'cosa'}` : ''
     }
   }
 }

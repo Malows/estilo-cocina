@@ -1,41 +1,37 @@
-<template>
-  <div class="layout-padding">
-    <div class="column">
-      <div class="list">
-        <div class="item three-lines">
-          <q-field icon="mail">
-            <q-input v-model="username" float-label="Tú email" required class="full-width" />
-          </q-field>
-        </div>
-        <div class="item three-lines">
-          <div class="item-content">
-            <q-field icon="vpn_key">
-              <q-input v-model="password" type="password" required float-label="Tú contraseña" class="full-width" @keyup.enter="submit"/>
-            </q-field>
-          </div>
-        </div>
-      </div>
-      <q-btn color="primary" class="full-width" @click="submit">Login</q-btn>
-      <p v-if="response">{{ response }}</p>
-      <q-btn
-        icon="photo_camera"
-        round
-        color="primary"
-        class="raised absolute-bottom-right"
-        style="bottom: 24px; right: 18px;"
-        @click="scanQR()" />
-    </div>
-  </div>
+<template lang="pug">
+.layout-padding
+  .column
+    .list
+      .item.three-lines
+        .item-content
+          q-field(icon='mail')
+            q-input.full-width(v-model='username' float-label='Email' required='')
+      .item.three-lines
+        .item-content
+          q-field(icon='vpn_key')
+            q-input.full-width(
+              v-model='password'
+              type='password'
+              required=''
+              float-label='Contraseña'
+              @keyup.enter='submit'
+              )
+    q-btn.full-width(color='primary' @click='submit') Ingresar
+    p(v-if='response') {{ response }}
+    q-btn.raised.absolute-bottom-right(
+      icon='photo_camera'
+      round=''
+      color='primary'
+      style='bottom: 24px; right: 18px;'
+      @click='scanQR()'
+      )
 </template>
 
 <script>
 import { QBtn, QInput, QField, Dialog, Toast } from 'quasar'
 export default {
-  components: {
-    'q-btn': QBtn,
-    'q-input': QInput,
-    'q-field': QField
-  },
+  name: 'login',
+  components: { QBtn, QInput, QField },
   data () {
     return {
       username: '',
@@ -54,9 +50,14 @@ export default {
 
       const postData = { username: this.username, password: this.password }
 
-      this.$store.dispatch('loginUser', postData)
+      this.$store
+        .dispatch('loginUser', postData)
         .then(({ tokens, user }) => {
-          Toast.create(`Bienvenido ${user.name}. Su sesión expira en ${tokens.expires_in / 3600} horas.`)
+          Toast.create(
+            `Bienvenido ${user.name}. Su sesión expira en ${Math.round(
+              tokens.expires_in / 3600
+            )} horas.`
+          )
           this.$store.dispatch('refreshAll').then(() => {
             this.$router.push({ path: '/pedidos' })
           })
@@ -74,9 +75,14 @@ export default {
             Toast.create('Escaneo de código QR cancelado.')
             return
           }
-          this.$store.dispatch('qrLogin', result.text)
+          this.$store
+            .dispatch('qrLogin', result.text)
             .then(({ tokens, user }) => {
-              Toast.create(`Bienvenido ${user.name}. Su sesión expira en ${tokens.expires_in / 3600} horas.`)
+              Toast.create(
+                `Bienvenido ${user.name}. Su sesión expira en ${Math.round(
+                  tokens.expires_in / 3600
+                )} horas.`
+              )
               this.$router.push({ path: '/' })
             })
             .catch(err => {
@@ -86,7 +92,8 @@ export default {
         },
         error => {
           Dialog.create({ message: `Fallo al escanear el código QR: ${error}` })
-        })
+        }
+      )
     }
   }
 }

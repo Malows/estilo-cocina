@@ -1,23 +1,22 @@
-<template lang="html">
-  <div class="modal" :class="{ 'is-active': showModal }">
-    <div class="modal-background" @click="hideModal" />
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Despachar pedido completo</p>
-        <button class="delete" @click="hideModal" />
-      </header>
-      <section class="modal-card-body">
-        <p>Mozo: <strong>{{ pedido.mozo.name }}</strong> - {{ pedido.total_cosas }} {{ pedido.total_cosas > 1 ? 'cosas' : 'cosa' }}</p>
-        <div class="row">
-          <plato v-for="plato in pedido.platos" :key="plato.id" :plato="plato" :estilos="['col-sm-12', 'col-md-6', 'pedido-item']" />
-        </div>
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-large is-fullwidth" @click="hideModal">Cerrar</button>
-        <button class="button is-info is-large is-fullwidth" @click="despacharPedido">Completar</button>
-    </footer>
-    </div>
-  </div>
+<template lang="pug">
+.modal(:class="{ 'is-active': showModal }")
+  .modal-background(@click='hideModal')
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title Despachar pedido completo
+      button.delete(@click='hideModal')
+    section.modal-card-body
+      p
+        | Mozo:
+        |
+        strong {{ pedido.mozo.name }}
+        |
+        |  - {{ pedido.total_cosas }} {{ pedido.total_cosas &gt; 1 ? &apos;cosas&apos; : &apos;cosa&apos; }}
+      .row
+        plato(v-for='plato in pedido.platos' :key='plato.id' :plato='plato' :estilos="['col-sm-12', 'col-md-6', 'pedido-item']")
+    footer.modal-card-foot
+      button.button.is-large.is-fullwidth(@click='hideModal') Cerrar
+      button.button.is-info.is-large.is-fullwidth(@click='despacharPedido') Completar
 </template>
 
 <script>

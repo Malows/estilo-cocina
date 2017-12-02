@@ -12,4 +12,8 @@
 export default {}
 </script>
 
-<style></style>
+<style>
+.uppercase {
+  text-transform: uppercase;
+}
+</style>

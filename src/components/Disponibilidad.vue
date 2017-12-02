@@ -1,15 +1,23 @@
-<template lang="html">
-  <div class="layout-padding">
-    <div v-for="categoria in data" v-if="categoria.platos.length" class="list padded-bottom" @click="datosEnviar">
-      <h4>{{ categoria.nombre.toUpperCase() }}</h4>
-      <q-toggle v-for="plato in categoria.platos" :key="plato.id" v-model="plato.habilitado" :label="plato.nombre" class="list-item"/>
-    </div>
-  </div>
+<template lang="pug">
+.layout-padding
+  .list.padded-bottom(
+    v-for='categoria in data'
+    v-if='categoria.platos.length'
+    @click='datosEnviar'
+    )
+    h4.uppercase {{ categoria.nombre }}
+    q-toggle.list-item(
+      v-for='plato in categoria.platos'
+      v-model='plato.habilitado'
+      :key='plato.id'
+      :label='plato.nombre'
+      )
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import { QToggle } from 'quasar'
+
 function pluck (lista) {
   return lista.reduce((c, x) => {
     c[`${x.id}`] = x.habilitado
@@ -19,9 +27,7 @@ function pluck (lista) {
 
 export default {
   name: 'disponibilidad',
-  components: {
-    QToggle
-  },
+  components: { QToggle },
   data () {
     return {
       data: []

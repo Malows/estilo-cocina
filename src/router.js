@@ -9,6 +9,13 @@ import Disponibilidad from '@/Disponibilidad'
 
 Vue.use(VueRouter)
 
+const routify = (component, path, name = null, children = null) => Object.assign(
+  {},
+  { component, path },
+  name ? { name } : {},
+  children ? { children } : {}
+)
+
 export default new VueRouter({
   /*
    * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
@@ -26,39 +33,14 @@ export default new VueRouter({
   scrollBehavior: () => ({ y: 0 }),
 
   routes: [
-    {
-      path: '/login',
-      name: 'Ingreso',
-      component: Login
-    },
-    {
-      path: '/',
-      component: Layout,
-      children: [
-        {
-          path: '/pedidos',
-          name: 'Pedidos',
-          component: ListaPedidos
-        },
-        {
-          path: '/categorias',
-          name: 'Resúmenes',
-          component: ListaResumenes
-        },
-        {
-          path: '/categorias/:categoria',
-          name: 'Resúmen',
-          component: ListaResumenes
-        },
-        {
-          path: '/disponibilidad',
-          name: 'Disponibilidad',
-          component: Disponibilidad
-        }
-      ]
-    },
-
+    routify(Login, '/login', 'Ingreso'),
+    routify(Layout, '/', null, [
+      routify(ListaPedidos, '/pedidos', 'Pedidos'),
+      routify(ListaResumenes, '/categorias', 'Resúmenes'),
+      routify(ListaResumenes, '/categorias/:categoria', 'Resúmen'),
+      routify(Disponibilidad, '/disponibilidad', 'Disponibilidad')
+    ]),
     // Always leave this last one
-    { path: '*', component: Error404 } // Not found
+    routify(Error404, '*')
   ]
 })
