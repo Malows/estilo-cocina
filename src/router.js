@@ -12,6 +12,9 @@ Vue.use(VueRouter)
 
 const checkUser = () => new Promise((resolve, reject) => {
   const user = JSON.parse(window.localStorage.getItem('user'))
+
+  if (!user.hasOwnProperty('tipo_usuario_id') || !user.hasOwnProperty('expire')) reject(new Error(''))
+
   const userLevel = user.tipo_usuario_id < 3
   const inTimeGap = isBefore(Date.now(), user.expire)
   if (!userLevel) reject(new Error('Privilégios insuficiente para ingresar a esta aplicación. Consulte con un administrador.'))
