@@ -4,9 +4,9 @@ import { isBefore } from 'date-fns'
 import Error404 from '@/Error404'
 import Layout from '@/Layout'
 import Login from '@/Login'
-import ListaPedidos from '@/ListaPedidos'
-import ListaResumenes from '@/ListaResumenes'
-import Disponibilidad from '@/Disponibilidad'
+// import ListaPedidos from '@/ListaPedidos'
+// import ListaResumenes from '@/ListaResumenes'
+// import Disponibilidad from '@/Disponibilidad'
 
 Vue.use(VueRouter)
 
@@ -37,12 +37,13 @@ const router = new VueRouter({
 
   routes: [
     unguardedRoute(Login, '/login', 'Ingreso'),
-    route(Layout, '/', null, [
-      route(ListaPedidos, '/pedidos', 'Pedidos'),
-      route(ListaResumenes, '/categorias', 'Resúmenes'),
-      route(ListaResumenes, '/categorias/:categoria', 'Resúmen'),
-      route(Disponibilidad, '/disponibilidad', 'Disponibilidad')
-    ]),
+    // route(Layout, '/', null, [
+    //   route(ListaPedidos, '/pedidos', 'Pedidos'),
+    //   route(ListaResumenes, '/categorias', 'Resúmenes'),
+    //   route(ListaResumenes, '/categorias/:categoria', 'Resúmen'),
+    //   route(Disponibilidad, '/disponibilidad', 'Disponibilidad')
+    // ]),
+    route(Layout, '/', 'Disponibilidad'),
     unguardedRoute(Error404, '*')
   ]
 })

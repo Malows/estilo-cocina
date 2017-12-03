@@ -11,38 +11,40 @@
     div(slot='left')
       q-list(no-border='' link='' inset-delimiter='')
         q-list-header Opciones
-        q-side-link(item='' to='/pedidos')
-          q-item-side(icon='receipt')
-          q-item-main(label='Pedidos' sublabel='Lista de pedidos')
-        q-side-link(item='' to='/categorias')
-          q-item-side(icon='event_note')
-          q-item-main(label='Categorías' sublabel='Resúmenes por categorías')
-        q-item-separator
-        q-side-link(item='' to='/disponibilidad')
+        //- q-side-link(item='' to='/pedidos')
+        //-   q-item-side(icon='receipt')
+        //-   q-item-main(label='Pedidos' sublabel='Lista de pedidos')
+        //- q-side-link(item='' to='/categorias')
+        //-   q-item-side(icon='event_note')
+        //-   q-item-main(label='Categorías' sublabel='Resúmenes por categorías')
+        //- q-item-separator
+        //- q-side-link(item='' to='/disponibilidad')
+        q-side-link(item='' to='/')
           q-item-side(icon='edit')
           q-item-main(label='Disponibilidad' sublabel='Modificar disponibilidad de los platos')
         q-item-separator
         q-item(@click='logout')
           q-item-side(icon='exit_to_app')
           q-item-main(label='Salir' sublabel='Cerrar la sesión')
-    modal-despachar(v-if='showModal')
-    router-view
-    q-btn.raised.fixed-bottom-right(
-      v-if="route.name.includes('Pedido')"
-      icon='event_note'
-      round=''
-      color='primary'
-      @click="$router.push({ path: '/categorias' })"
-      style='bottom: 24px; right: 18px;'
-      )
-    q-btn.raised.fixed-bottom-right(
-      v-if="route.name.includes('Resúmen')"
-      icon='receipt'
-      round=''
-      color='primary'
-      @click="$router.push({ path: '/pedidos' })"
-      style='bottom: 24px; right: 18px;'
-      )
+    //- modal-despachar(v-if='showModal')
+    //- router-view
+    disponibilidad
+    //- q-btn.raised.fixed-bottom-right(
+    //-   v-if="route.name.includes('Pedido')"
+    //-   icon='event_note'
+    //-   round=''
+    //-   color='primary'
+    //-   @click="$router.push({ path: '/categorias' })"
+    //-   style='bottom: 24px; right: 18px;'
+    //-   )
+    //- q-btn.raised.fixed-bottom-right(
+    //-   v-if="route.name.includes('Resúmen')"
+    //-   icon='receipt'
+    //-   round=''
+    //-   color='primary'
+    //-   @click="$router.push({ path: '/pedidos' })"
+    //-   style='bottom: 24px; right: 18px;'
+    //-   )
     q-btn.raised.fixed-bottom-right(
       v-if="route.name.includes('Disponibilidad')"
       icon='check'
@@ -68,12 +70,15 @@ import {
   QItemMain,
   QSideLink
 } from 'quasar'
-import ModalDespachar from './partials/ModalDespachar'
-import { mapState, mapGetters } from 'vuex'
+// import ModalDespachar from './partials/ModalDespachar'
+import Disponibilidad from './Disponibilidad'
+// import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   components: {
-    ModalDespachar,
+    Disponibilidad,
+    // ModalDespachar,
     QLayout,
     QToolbar,
     QToolbarTitle,
@@ -97,8 +102,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(['route']),
-    ...mapGetters(['showModal'])
+    ...mapState(['route'])
+    // ...mapGetters(['showModal'])
   }
 }
 </script>

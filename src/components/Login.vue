@@ -59,7 +59,7 @@ export default {
             )} horas.`
           )
           this.$store.dispatch('refreshAll').then(() => {
-            this.$router.push({ path: '/pedidos' })
+            this.$router.push({ path: '/' })
           })
         })
         .catch(err => {
