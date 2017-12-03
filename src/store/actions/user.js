@@ -12,6 +12,14 @@ const manejarErrorLogin = (tokens, reject) => {
   reject(mensaje)
 }
 
+const handleError = error => {
+  if (error.message === 'Network Error') return new Error('Problemas de red.')
+  const { status, data } = error.response
+  if (status === 401) {
+    if (data.error === 'invalid_credentials') return new Error('Las credenciales de usuario son incorrectas.')
+  }
+}
+
 const parseLoginPayload = (username, password) => Object.assign({}, OAuthPayload, { username, password })
 
 const addExpirationData = (tokens) => Object.assign(
@@ -83,8 +91,8 @@ export default {
           dispatch('setToken', token)
           localStorage.setItem('authTokens', JSON.stringify(tokens))
           resolve({ tokens, user })
-        }).catch(() => { reject(Error('Datos de usuario inalcansables')) })
-      }).catch(() => { reject(Error('Ingreso no realizado')) })
+        }).catch(err => { reject(handleError(err)) })
+      }).catch(err => { reject(handleError(err)) })
     })
   },
 
@@ -93,7 +101,7 @@ export default {
       let payload = JSON.parse(b64DecodeLogin(QrString))
       dispatch('LOGIN_USER', payload)
         .then(data => { resolve(data) })
-        .catch(err => { reject(err) })
+        .catch(err => { reject(handleError(err)) })
     })
   }
 }

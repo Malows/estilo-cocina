@@ -64,7 +64,7 @@ export default {
         })
         .catch(err => {
           console.error(err)
-          this.response = 'El servidor parece estar fuera de servicio.'
+          this.response = err.message
         })
     },
 
@@ -87,7 +87,7 @@ export default {
             })
             .catch(err => {
               console.error(err)
-              this.response = 'El servidor parece estar fuera de servicio.'
+              this.response = err.message
             })
         },
         error => {
