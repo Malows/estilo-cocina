@@ -95,6 +95,10 @@ export default {
         }
       )
     }
+  },
+  mounted () {
+    const query = this.$route.query
+    this.response = query.error || ''
   }
 }
 </script>

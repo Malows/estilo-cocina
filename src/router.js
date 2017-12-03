@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { isBefore } from 'date-fns'
 import Error404 from '@/Error404'
 import Layout from '@/Layout'
 import Login from '@/Login'
@@ -9,38 +10,50 @@ import Disponibilidad from '@/Disponibilidad'
 
 Vue.use(VueRouter)
 
-const routify = (component, path, name = null, children = null) => Object.assign(
-  {},
-  { component, path },
+const checkUser = () => new Promise((resolve, reject) => {
+  const user = JSON.parse(window.localStorage.getItem('user'))
+  const userLevel = user.tipo_usuario_id < 3
+  const inTimeGap = isBefore(Date.now(), user.expire)
+  if (!userLevel) reject(new Error('Privilégios insuficiente para ingresar a esta aplicación. Consulte con un administrador.'))
+  else if (!inTimeGap) reject(new Error('Credenciales expiradas. Ingrese nuevamente por favor.'))
+  else resolve(user)
+})
+
+const routify = guarded => (component, path, name = null, children = null) => Object.assign(
+  { meta: { requiresAuth: guarded }, component, path },
   name ? { name } : {},
   children ? { children } : {}
 )
 
-export default new VueRouter({
-  /*
-   * NOTE! VueRouter "history" mode DOESN'T works for Cordova builds,
-   * it is only to be used only for websites.
-   *
-   * If you decide to go with "history" mode, please also open /config/index.js
-   * and set "build.publicPath" to something other than an empty string.
-   * Example: '/' instead of current ''
-   *
-   * If switching back to default "hash" mode, don't forget to set the
-   * build publicPath back to '' so Cordova builds work again.
-   */
+const unguardedRoute = routify(false)
+const route = routify(true)
 
+const router = new VueRouter({
   mode: 'hash',
   scrollBehavior: () => ({ y: 0 }),
 
   routes: [
-    routify(Login, '/login', 'Ingreso'),
-    routify(Layout, '/', null, [
-      routify(ListaPedidos, '/pedidos', 'Pedidos'),
-      routify(ListaResumenes, '/categorias', 'Resúmenes'),
-      routify(ListaResumenes, '/categorias/:categoria', 'Resúmen'),
-      routify(Disponibilidad, '/disponibilidad', 'Disponibilidad')
+    unguardedRoute(Login, '/login', 'Ingreso'),
+    route(Layout, '/', null, [
+      route(ListaPedidos, '/pedidos', 'Pedidos'),
+      route(ListaResumenes, '/categorias', 'Resúmenes'),
+      route(ListaResumenes, '/categorias/:categoria', 'Resúmen'),
+      route(Disponibilidad, '/disponibilidad', 'Disponibilidad')
     ]),
-    // Always leave this last one
-    routify(Error404, '*')
+    unguardedRoute(Error404, '*')
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const auth = to.meta.requiresAuth
+  if (!auth) next()
+  else {
+    checkUser()
+      .then(() => { next() })
+      .catch(err => {
+        next({ path: '/login', query: { error: err.message } })
+      })
+  }
+})
+
+export default router
