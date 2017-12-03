@@ -87,9 +87,6 @@ export default {
     QItemMain,
     QSideLink
   },
-  data () {
-    return {}
-  },
   methods: {
     logout () {
       this.$store.dispatch('logoutUser')
