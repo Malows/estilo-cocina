@@ -54,7 +54,8 @@ router.beforeEach((to, from, next) => {
     checkUser()
       .then(() => { next() })
       .catch(err => {
-        next({ path: '/login', query: { error: err.message } })
+        if (err.message === '') next({ path: '/login' })
+        else next({ path: '/login', query: { error: err.message } })
       })
   }
 })
