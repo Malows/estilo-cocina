@@ -12,14 +12,15 @@ Vue.use(VueRouter)
 
 const checkUser = () => new Promise((resolve, reject) => {
   const user = JSON.parse(window.localStorage.getItem('user'))
-
-  if (!user.hasOwnProperty('tipo_usuario_id') || !user.hasOwnProperty('expire')) reject(new Error(''))
-
-  const userLevel = user.tipo_usuario_id < 3
-  const inTimeGap = isBefore(Date.now(), user.expire)
-  if (!userLevel) reject(new Error('Privilégios insuficiente para ingresar a esta aplicación. Consulte con un administrador.'))
-  else if (!inTimeGap) reject(new Error('Credenciales expiradas. Ingrese nuevamente por favor.'))
-  else resolve(user)
+  if (!user) reject(new Error(''))
+  else if (!user.hasOwnProperty('tipo_usuario_id') || !user.hasOwnProperty('expire')) reject(new Error(''))
+  else {
+    const userLevel = user.tipo_usuario_id < 3
+    const inTimeGap = isBefore(Date.now(), user.expire)
+    if (!userLevel) reject(new Error('Privilégios insuficiente para ingresar a esta aplicación. Consulte con un administrador.'))
+    else if (!inTimeGap) reject(new Error('Credenciales expiradas. Ingrese nuevamente por favor.'))
+    else resolve(user)
+  }
 })
 
 const routify = guarded => (component, path, name = null, children = null) => Object.assign(
@@ -37,7 +38,7 @@ const router = new VueRouter({
 
   routes: [
     unguardedRoute(Login, '/login', 'Ingreso'),
-    route(Layout, '/', null, [
+    route(Layout, '/', 'Cocina', [
       route(ListaPedidos, '/pedidos', 'Pedidos'),
       route(ListaResumenes, '/categorias', 'Resúmenes'),
       route(ListaResumenes, '/categorias/:categoria', 'Resúmen'),

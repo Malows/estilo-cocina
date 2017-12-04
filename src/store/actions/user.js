@@ -58,10 +58,12 @@ export default {
     return new Promise((resolve, reject) => {
       if (!window.localStorage) return reject(Error('No soporta localStorage.'))
       const token = window.localStorage.getItem('token')
-
+      const user = JSON.parse(localStorage.getItem('user'))
       applyAxiosHeader(token)
 
       window.axios.get(SELF_USER_URL).then(({ data }) => {
+        data.created = user.created
+        data.expire = user.expire
         window.localStorage.setItem('user', JSON.stringify(data))
         if (data && state.user !== data) {
           commit('SET_USER', data)

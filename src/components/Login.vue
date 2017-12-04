@@ -5,7 +5,12 @@
       .item.three-lines
         .item-content
           q-field(icon='mail')
-            q-input.full-width(v-model='username' float-label='Email' required='')
+            q-input.full-width(
+              v-model='username'
+              type="email"
+              float-label='Email'
+              required=''
+              )
       .item.three-lines
         .item-content
           q-field(icon='vpn_key')
@@ -83,7 +88,7 @@ export default {
                   tokens.expires_in / 3600
                 )} horas.`
               )
-              this.$router.push({ path: '/' })
+              this.$router.push({ path: '/pedidos' })
             })
             .catch(err => {
               console.error(err)

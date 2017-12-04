@@ -99,6 +99,9 @@ export default {
   computed: {
     ...mapState(['route']),
     ...mapGetters(['showModal'])
+  },
+  mounted () {
+    if (this.route.fullPath === '/') this.$router.push({ path: '/pedidos' })
   }
 }
 </script>
