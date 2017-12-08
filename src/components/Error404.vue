@@ -1,44 +1,23 @@
-<template>
-  <div class="error-page window-height window-width bg-light column items-center no-wrap">
-    <div class="error-code bg-primary flex items-center content-center justify-center">
-      404
-    </div>
-    <div>
-      <div class="error-card shadow-4 bg-white column items-center justify-center no-wrap">
-        <q-icon name="error_outline" color="grey-5" />
-        <p class="caption text-center">Oops. Nothing here...</p>
-        <p class="text-center group">
-          <q-btn
-            v-if="canGoBack"
-            color="primary"
-            push
-            @click="goBack"
-            icon="keyboard_arrow_left"
-          >
-            Go back
-          </q-btn>
-          <q-btn
-            color="primary"
-            push
-            @click="$router.replace('/')"
-            icon-right="home"
-          >
-            Go home
-          </q-btn>
-        </p>
-      </div>
-    </div>
-  </div>
+<template lang="pug">
+  .error-page.window-height.window-width.bg-light.column.items-center.no-wrap
+    .error-code.bg-primary.flex.items-center.content-center.justify-center
+      | 404
+    div
+      .error-card.shadow-4.bg-white.column.items-center.justify-center.no-wrap
+        q-icon(name='error_outline' color='grey-5')
+        p.caption.text-center Oops. Nothing here...
+        p.text-center.group
+          q-btn(v-if='canGoBack' color='primary' push='' @click='goBack' icon='keyboard_arrow_left')
+            | Go back
+          q-btn(color='primary' push='' @click="$router.replace('/')" icon-right='home')
+            | Go home
 </template>
 
 <script>
 import { QBtn, QIcon } from 'quasar'
 
 export default {
-  components: {
-    QBtn,
-    QIcon
-  },
+  components: { QBtn, QIcon },
   data () {
     return {
       canGoBack: window.history.length > 1
@@ -58,10 +37,10 @@ export default {
     height 50vh
     width 100%
     padding-top 15vh
-    @media (orientation: landscape) { 
+    @media (orientation: landscape) {
       font-size 30vw
     }
-    @media (orientation: portrait) { 
+    @media (orientation: portrait) {
       font-size 30vh
     }
     color rgba(255, 255, 255, .2)

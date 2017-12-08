@@ -4,52 +4,37 @@
   q-layout(ref='layout' view='hHh LpR fff')
     q-toolbar(slot='header')
       // opens drawer below
-      q-btn.hide-on-drawer-visible(flat='' @click='$refs.layout.toggleLeft()')
+      q-btn.hide-on-drawer-visible(icon='menu' flat='' @click='$refs.layout.toggleLeft()')
         q-icon(name='menu')
       q-toolbar-title {{ route.name || 'Cocina' }}
     // Left Side Panel
     div(slot='left')
       q-list(no-border='' link='' inset-delimiter='')
         q-list-header Opciones
-        q-side-link(item='' to='/pedidos')
-          q-item-side(icon='receipt')
-          q-item-main(label='Pedidos' sublabel='Lista de pedidos')
-        q-side-link(item='' to='/categorias')
-          q-item-side(icon='event_note')
-          q-item-main(label='Categorías' sublabel='Resúmenes por categorías')
+        menu-item(to='/pedidos' icon='receipt' label='Pedidos' sublabel='Lista de pedidos')
+        menu-item(to='/categorias' icon='event_note' label='Categorías' sublabel='Resúmenes por categorías')
         q-item-separator
-        q-side-link(item='' to='/disponibilidad')
-          q-item-side(icon='edit')
-          q-item-main(label='Disponibilidad' sublabel='Modificar disponibilidad de los platos')
+        menu-item(to='/disponibilidad' icon='edit' label='Disponibilidad' sublabel='Modificar disponibilidad de los platos')
         q-item-separator
         q-item(@click='logout')
           q-item-side(icon='exit_to_app')
           q-item-main(label='Salir' sublabel='Cerrar la sesión')
     modal-despachar(v-if='showModal')
     router-view
-    q-btn.raised.fixed-bottom-right(
+    boton(
       v-if="route.name.includes('Pedido')"
       icon='event_note'
-      round=''
-      color='primary'
       @click="$router.push({ path: '/categorias' })"
-      style='bottom: 24px; right: 18px;'
       )
-    q-btn.raised.fixed-bottom-right(
+    boton(
       v-if="route.name.includes('Resúmen')"
       icon='receipt'
-      round=''
-      color='primary'
       @click="$router.push({ path: '/pedidos' })"
-      style='bottom: 24px; right: 18px;'
       )
-    q-btn.raised.fixed-bottom-right(
+    boton(
       v-if="route.name.includes('Disponibilidad')"
       icon='check'
-      round=''
-      color='primary'
       @click='guardarDisponibilidad'
-      style='bottom: 24px; right: 18px;'
       )
 </template>
 
@@ -65,15 +50,18 @@ import {
   QList,
   QListHeader,
   QItemSide,
-  QItemMain,
-  QSideLink
+  QItemMain
 } from 'quasar'
 import ModalDespachar from './partials/ModalDespachar'
+import MenuItem from './partials/MenuItem'
+import Boton from './partials/Boton'
 import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
+    Boton,
     ModalDespachar,
+    MenuItem,
     QLayout,
     QToolbar,
     QToolbarTitle,
@@ -84,8 +72,7 @@ export default {
     QList,
     QListHeader,
     QItemSide,
-    QItemMain,
-    QSideLink
+    QItemMain
   },
   methods: {
     logout () {
