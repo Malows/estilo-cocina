@@ -52,9 +52,9 @@ window.Echo = new Echo({
   namespace: ''
 })
 
-window.Echo.channel('pedidos')
-  .listen('nuevoPedido', x => { store.dispatch('agregarPedido', x['pedido']) })
-  .listen('editarPedido', x => { store.dispatch('editarPedido', x['pedido']) })
-  .listen('cancelarPedido', x => { store.dispatch('cancelarPedido', x['id']) })
+// window.Echo.channel('pedidos')
+//   .listen('nuevoPedido', x => { store.dispatch('agregarPedido', x['pedido']) })
+//   .listen('editarPedido', x => { store.dispatch('editarPedido', x['pedido']) })
+//   .listen('cancelarPedido', x => { store.dispatch('cancelarPedido', x['id']) })
 
 // window.setTimeout(() => { alert('tu socket es ' + window.Echo.socketId()) }, 5000)

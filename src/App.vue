@@ -1,15 +1,18 @@
-<template>
+<template lang="pug">
   <!-- Don't drop "q-app" class -->
-  <div id="q-app">
-    <router-view />
-  </div>
+  #q-app
+    router-view
 </template>
 
 <script>
 /*
  * Root component
  */
-export default {}
+export default {
+  beforeDestroy () {
+    this.$store.dispatch('logoutUser')
+  }
+}
 </script>
 
 <style>
